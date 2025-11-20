@@ -6,6 +6,7 @@ public class PropiedadDTO {
 	private String titulo;
 	private String descripcion;
 	private String tipo;
+	private String estado;
 	private String ubicacion;
 	private Double precio;
 	private String imagenUrl;
@@ -14,7 +15,6 @@ public class PropiedadDTO {
 	public PropiedadDTO() {
 	}
 
-	// Getters y setters
 	public Long getId() {
 		return id;
 	}
@@ -78,4 +78,13 @@ public class PropiedadDTO {
 	public void setPropietarioId(Long propietarioId) {
 		this.propietarioId = propietarioId;
 	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
 }

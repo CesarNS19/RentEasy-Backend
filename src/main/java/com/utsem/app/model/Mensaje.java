@@ -7,37 +7,26 @@ import java.time.LocalDateTime;
 @Table(name = "mensajes")
 public class Mensaje {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "emisor_id", nullable = false)
-	private User emisor;
+    private Long emisorId;
+    private Long receptorId;
+    private String contenido;
+    private LocalDateTime fecha;
 
-	@ManyToOne
-	@JoinColumn(name = "receptor_id", nullable = false)
-	private User receptor;
+    private String conversationId;
 
-	@Column(nullable = false)
-	private String contenido;
+    public Mensaje() { }
 
-	private LocalDateTime fechaEnvio = LocalDateTime.now();
-
-	@ManyToOne
-	@JoinColumn(name = "conversacion_id")
-	private Conversacion conversacion;
-
-	public Mensaje() {
-	}
-
-	public Mensaje(User emisor, User receptor, String contenido, Conversacion conversacion) {
-		this.emisor = emisor;
-		this.receptor = receptor;
-		this.contenido = contenido;
-		this.conversacion = conversacion;
-		this.fechaEnvio = LocalDateTime.now();
-	}
+    public Mensaje(Long emisorId, Long receptorId, String contenido, LocalDateTime fecha, String conversationId) {
+        this.emisorId = emisorId;
+        this.receptorId = receptorId;
+        this.contenido = contenido;
+        this.fecha = fecha;
+        this.conversationId = conversationId;
+    }
 
 	public Long getId() {
 		return id;
@@ -47,20 +36,20 @@ public class Mensaje {
 		this.id = id;
 	}
 
-	public User getEmisor() {
-		return emisor;
+	public Long getEmisorId() {
+		return emisorId;
 	}
 
-	public void setEmisor(User emisor) {
-		this.emisor = emisor;
+	public void setEmisorId(Long emisorId) {
+		this.emisorId = emisorId;
 	}
 
-	public User getReceptor() {
-		return receptor;
+	public Long getReceptorId() {
+		return receptorId;
 	}
 
-	public void setReceptor(User receptor) {
-		this.receptor = receptor;
+	public void setReceptorId(Long receptorId) {
+		this.receptorId = receptorId;
 	}
 
 	public String getContenido() {
@@ -71,19 +60,19 @@ public class Mensaje {
 		this.contenido = contenido;
 	}
 
-	public LocalDateTime getFechaEnvio() {
-		return fechaEnvio;
+	public LocalDateTime getFecha() {
+		return fecha;
 	}
 
-	public void setFechaEnvio(LocalDateTime fechaEnvio) {
-		this.fechaEnvio = fechaEnvio;
+	public void setFecha(LocalDateTime fecha) {
+		this.fecha = fecha;
 	}
 
-	public Conversacion getConversacion() {
-		return conversacion;
+	public String getConversationId() {
+		return conversationId;
 	}
 
-	public void setConversacion(Conversacion conversacion) {
-		this.conversacion = conversacion;
+	public void setConversationId(String conversationId) {
+		this.conversationId = conversationId;
 	}
 }

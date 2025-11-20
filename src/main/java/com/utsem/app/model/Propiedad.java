@@ -13,9 +13,11 @@ public class Propiedad {
 	private String titulo;
 	private String descripcion;
 	private String tipo;
+	private String estado;
 	private String ubicacion;
 	private Double precio;
 	private String imagenUrl;
+	private Double promedio;
 
 	@ManyToOne
 	@JoinColumn(name = "usuario_id")
@@ -30,10 +32,14 @@ public class Propiedad {
 		this.descripcion = descripcion;
 		this.tipo = tipo;
 		this.ubicacion = ubicacion;
+		
 		this.precio = precio;
 		this.imagenUrl = imagenUrl;
 		this.propietario = propietario;
 	}
+	
+	public Double getPromedio() { return promedio; }
+	public void setPromedio(Double promedio) { this.promedio = promedio; }
 
 	public Long getId() {
 		return id;
@@ -98,4 +104,13 @@ public class Propiedad {
 	public void setPropietario(User propietario) {
 		this.propietario = propietario;
 	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
 }

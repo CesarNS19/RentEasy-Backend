@@ -3,6 +3,7 @@ package com.utsem.app.service;
 import com.utsem.app.dto.PropiedadDTO;
 import com.utsem.app.model.Propiedad;
 import com.utsem.app.model.User;
+import com.utsem.app.repository.ComentarioRepository;
 import com.utsem.app.repository.PropiedadRepository;
 import com.utsem.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,22 @@ public class PropiedadService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired 
+    private ComentarioRepository comentarioRepo;
 
     public List<Propiedad> listar() {
-        return propiedadRepository.findAll();
+        List<Propiedad> lista = propiedadRepository.findAll()
+                .stream()
+                .filter(p -> "disponible".equals(p.getEstado()))
+                .toList();
+
+        lista.forEach(p -> {
+            Double promedio = comentarioRepo.promedioPorPropiedad(p.getId());
+            p.setPromedio(promedio != null ? promedio : 0.0);
+        });
+
+        return lista;
     }
     
     public List<Propiedad> listarPorPropietario(Long propietarioId) {
@@ -72,4 +86,16 @@ public class PropiedadService {
     public List<Propiedad> filtrar(String ubicacion, String tipo, Double precioMin, Double precioMax) {
         return propiedadRepository.buscarFiltrado(ubicacion, tipo, precioMin, precioMax);
     }
+    
+    public Propiedad cambiarEstado(Long id, String estado) {
+        Optional<Propiedad> opt = propiedadRepository.findById(id);
+        if (!opt.isPresent()) return null;
+
+        Propiedad propiedad = opt.get();
+        if ("disponible".equals(estado) || "alquilada".equals(estado)) {
+            propiedad.setEstado(estado);
+        }
+        return propiedadRepository.save(propiedad);
+    }
+
 }
