@@ -39,9 +39,15 @@ public class PropiedadService {
     }
     
     public List<Propiedad> listarPorPropietario(Long propietarioId) {
-        return propiedadRepository.findByPropietarioId(propietarioId);
-    }
+        List<Propiedad> lista = propiedadRepository.findByPropietarioId(propietarioId);
 
+        lista.forEach(p -> {
+            Double promedio = comentarioRepo.promedioPorPropiedad(p.getId());
+            p.setPromedio(promedio != null ? promedio : 0.0);
+        });
+
+        return lista;
+    }
 
     public Propiedad obtener(Long id) {
         Optional<Propiedad> propiedad = propiedadRepository.findById(id);
@@ -57,9 +63,10 @@ public class PropiedadService {
                 dto.getTipo(),
                 dto.getUbicacion(),
                 dto.getPrecio(),
-                dto.getImagenUrl(),
+                dto.getImagenes(),
                 propietario
         );
+        propiedad.setEstado("disponible");
 
         return propiedadRepository.save(propiedad);
     }
@@ -74,7 +81,8 @@ public class PropiedadService {
         propiedad.setTipo(dto.getTipo());
         propiedad.setUbicacion(dto.getUbicacion());
         propiedad.setPrecio(dto.getPrecio());
-        propiedad.setImagenUrl(dto.getImagenUrl());
+        propiedad.setImagenes(dto.getImagenes());
+        propiedad.setEstado(dto.getEstado());
 
         return propiedadRepository.save(propiedad);
     }

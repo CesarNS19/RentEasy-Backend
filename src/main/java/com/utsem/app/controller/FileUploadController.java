@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/upload")
@@ -17,10 +19,10 @@ public class FileUploadController {
 
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
 
-    @PostMapping("/imagen")
-    public ResponseEntity<String> subirImagen(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            return new ResponseEntity<>("Archivo vacío", HttpStatus.BAD_REQUEST);
+    @PostMapping("/imagenes")
+    public ResponseEntity<List<String>> subirImagenes(@RequestParam("files") MultipartFile[] files) {
+        if (files == null || files.length == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -29,21 +31,23 @@ public class FileUploadController {
                 directorio.mkdirs();
             }
 
-            String nombreArchivo = StringUtils.cleanPath(file.getOriginalFilename());
+            List<String> urls = new ArrayList<>();
 
-            String nombreUnico = System.currentTimeMillis() + "_" + nombreArchivo;
+            for (MultipartFile file : files) {
+                String nombreArchivo = StringUtils.cleanPath(file.getOriginalFilename());
+                String nombreUnico = System.currentTimeMillis() + "_" + nombreArchivo;
+                Path destino = Paths.get(UPLOAD_DIR + nombreUnico);
+                Files.copy(file.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
 
-            Path destino = Paths.get(UPLOAD_DIR + nombreUnico);
+                String urlPublica = "http://localhost:8081/uploads/" + nombreUnico;
+                urls.add(urlPublica);
+            }
 
-            Files.copy(file.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
-
-            String urlPublica = "http://localhost:8081/uploads/" + nombreUnico;
-
-            return new ResponseEntity<>(urlPublica, HttpStatus.OK);
+            return new ResponseEntity<>(urls, HttpStatus.OK);
 
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Error al subir la imagen", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

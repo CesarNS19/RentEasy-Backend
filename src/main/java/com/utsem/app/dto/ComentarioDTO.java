@@ -7,16 +7,27 @@ public class ComentarioDTO {
     private int estrellas;
     private Long propiedadId;
     private Long usuarioId;
-    private String username; // Para mostrar en el front
+    private String username;
     private LocalDateTime fecha;
 
-    public ComentarioDTO(String mensaje, int estrellas, Long propiedadId, Long usuarioId, String username, LocalDateTime fecha) {
+    private String imageUrl;
+
+    public ComentarioDTO(String mensaje, int estrellas, Long propiedadId, Long usuarioId, String username, LocalDateTime fecha, String imageUrl) {
         this.mensaje = mensaje;
         this.estrellas = estrellas;
         this.propiedadId = propiedadId;
         this.usuarioId = usuarioId;
         this.username = username;
         this.fecha = fecha;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getMensaje() {

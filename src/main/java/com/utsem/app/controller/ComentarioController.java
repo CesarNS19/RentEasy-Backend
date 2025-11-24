@@ -16,13 +16,11 @@ public class ComentarioController {
     @Autowired
     private ComentarioService comentarioService;
 
-    // Crear un nuevo comentario
     @PostMapping("/crear")
     public Comentario crearComentario(@RequestBody ComentarioDTO dto) {
         return comentarioService.crearComentario(dto);
     }
 
-    // Listar comentarios por propiedad
     @GetMapping("/por-propiedad/{propiedadId}")
     public List<ComentarioDTO> listarPorPropiedad(@PathVariable Long propiedadId) {
         return comentarioService.listarPorPropiedad(propiedadId);

@@ -1,43 +1,47 @@
 package com.utsem.app.model;
-
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "propiedades")
 public class Propiedad {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String titulo;
+    private String descripcion;
+    private String tipo;
+    private String estado;
+    private String ubicacion;
+    private Double precio;
+    private Double promedio;
 
-	private String titulo;
-	private String descripcion;
-	private String tipo;
-	private String estado;
-	private String ubicacion;
-	private Double precio;
-	private String imagenUrl;
-	private Double promedio;
+    @ElementCollection
+    @CollectionTable(name = "propiedad_imagenes", joinColumns = @JoinColumn(name = "propiedad_id"))
+    @Column(name = "imagen_url")
+    private List<String> imagenes;
 
-	@ManyToOne
-	@JoinColumn(name = "usuario_id")
-	private User propietario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private User propietario;
 
-	public Propiedad() {
-	}
+    public Propiedad() {}
 
-	public Propiedad(String titulo, String descripcion, String tipo, String ubicacion, Double precio, String imagenUrl,
-			User propietario) {
-		this.titulo = titulo;
-		this.descripcion = descripcion;
-		this.tipo = tipo;
-		this.ubicacion = ubicacion;
-		
-		this.precio = precio;
-		this.imagenUrl = imagenUrl;
-		this.propietario = propietario;
-	}
-	
+    public Propiedad(String titulo, String descripcion, String tipo, String ubicacion, Double precio, List<String> imagenes, User propietario) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.ubicacion = ubicacion;
+        this.precio = precio;
+        this.imagenes = imagenes;
+        this.propietario = propietario;
+        this.estado = "disponible";
+    }
+    
+    public List<String> getImagenes() { return imagenes; }
+    public void setImagenes(List<String> imagenes) { this.imagenes = imagenes; }
+    
 	public Double getPromedio() { return promedio; }
 	public void setPromedio(Double promedio) { this.promedio = promedio; }
 
@@ -89,14 +93,6 @@ public class Propiedad {
 		this.precio = precio;
 	}
 
-	public String getImagenUrl() {
-		return imagenUrl;
-	}
-
-	public void setImagenUrl(String imagenUrl) {
-		this.imagenUrl = imagenUrl;
-	}
-
 	public User getPropietario() {
 		return propietario;
 	}
@@ -112,5 +108,4 @@ public class Propiedad {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
 }

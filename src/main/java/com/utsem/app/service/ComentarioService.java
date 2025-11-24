@@ -26,7 +26,6 @@ public class ComentarioService {
     @Autowired
     private UserRepository userRepo;
 
-    // Crear un comentario
     public Comentario crearComentario(ComentarioDTO dto) {
         User usuario = userRepo.findById(dto.getUsuarioId())
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
@@ -50,7 +49,8 @@ public class ComentarioService {
                 c.getPropiedad().getId(),
                 c.getUsuario().getId(),
                 c.getUsuario().getUsername(),
-                c.getFecha()
+                c.getFecha(),
+                c.getUsuario().getImageUrl()
             ))
             .collect(Collectors.toList());
     }

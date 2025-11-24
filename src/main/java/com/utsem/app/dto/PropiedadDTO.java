@@ -1,19 +1,20 @@
 package com.utsem.app.dto;
 
+import java.util.List;
+
 public class PropiedadDTO {
 
-	private Long id;
-	private String titulo;
-	private String descripcion;
-	private String tipo;
-	private String estado;
-	private String ubicacion;
-	private Double precio;
-	private String imagenUrl;
-	private Long propietarioId;
+    private Long id;
+    private String titulo;
+    private String descripcion;
+    private String tipo;
+    private String estado;
+    private String ubicacion;
+    private Double precio;
+    private List<String> imagenes;
+    private Long propietarioId;
 
-	public PropiedadDTO() {
-	}
+    public PropiedadDTO() {}
 
 	public Long getId() {
 		return id;
@@ -22,6 +23,9 @@ public class PropiedadDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public List<String> getImagenes() { return imagenes; }
+    public void setImagenes(List<String> imagenes) { this.imagenes = imagenes; }
 
 	public String getTitulo() {
 		return titulo;
@@ -61,14 +65,6 @@ public class PropiedadDTO {
 
 	public void setPrecio(Double precio) {
 		this.precio = precio;
-	}
-
-	public String getImagenUrl() {
-		return imagenUrl;
-	}
-
-	public void setImagenUrl(String imagenUrl) {
-		this.imagenUrl = imagenUrl;
 	}
 
 	public Long getPropietarioId() {
