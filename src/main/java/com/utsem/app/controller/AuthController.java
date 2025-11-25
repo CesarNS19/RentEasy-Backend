@@ -10,6 +10,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = {"http://localhost:8100", "https://renteasy-frontend.com"}, // puedes agregar el dominio real después
+             allowedHeaders = "*",
+             methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS},
+             allowCredentials = "true")
 public class AuthController {
 
     @Autowired
@@ -39,4 +43,8 @@ public class AuthController {
         return response;
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "🚀 RentEasy Backend activo!";
+    }
 }
