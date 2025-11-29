@@ -26,7 +26,6 @@ public class PropiedadController {
         return propiedadService.listarPorPropietario(propietarioId);
     }
 
-
     @GetMapping("/{id}")
     public Propiedad obtener(@PathVariable Long id) {
         return propiedadService.obtener(id);
